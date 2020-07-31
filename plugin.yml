@@ -1,5 +1,8 @@
-name: StupidPlugin
-main: me.derpee.stupidplugin.StupidPlugin
+name: ToughCraft
+main: me.derpee.toughcraft.ToughCraft
 version: 1.0
 api-version: 1.13
 commands:
+  toughtoggle:
+    usage: "Usage: /<command> <event> [<toggle>]"
+    description: Toggles various features of the plugin
