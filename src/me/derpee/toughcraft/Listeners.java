@@ -54,7 +54,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class Listeners implements Listener {
 	Plugin plugin = ToughCraft.getPlugin(ToughCraft.class);
-	
+	// test
 	@EventHandler(priority = EventPriority.HIGH)
 	public void spawnEvent(EntitySpawnEvent event) {
 		if (plugin.getConfig().getBoolean("opMobs") == false) return;
