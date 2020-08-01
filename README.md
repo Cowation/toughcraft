@@ -1,5 +1,7 @@
 # ToughCraft
 
+[![GitHub version](https://badge.fury.io/gh/Cowation%2Ftoughcraft.svg)](https://badge.fury.io/gh/Cowation%2Ftoughcraft)[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)![GitHub build status](https://github.com/Cowation/toughcraft/workflows/Java%20CI%20with%20Maven/badge.svg)
+
 Adds increased difficulty to the default Minecraft gameplay experience through a Spigot plugin.
 
 ## Installation
