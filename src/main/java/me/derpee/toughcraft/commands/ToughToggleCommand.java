@@ -24,12 +24,12 @@ public class ToughToggleCommand implements CommandExecutor {
 				if (args[1].equals("true")) {
 					plugin.getConfig().set(args[0], true);
 					plugin.saveConfig();
-					Bukkit.broadcastMessage("§6§lTOUGH §r§8> " + "§e" + args[0] + "§r§7 is now " + "§r§6" + "true");
+					Bukkit.broadcastMessage("\u00a76\u00a7lTOUGH \u00a7r\u00a78> " + "\u00a7e" + args[0] + "\u00a7r\u00a77 is now " + "\u00a7r\u00a76" + "true");
 					return true;
 				} else if (args[1].equals("false")) {
 					plugin.getConfig().set(args[0], false);
 					plugin.saveConfig();
-					Bukkit.broadcastMessage("§6§lTOUGH §r§8> " + "§e" + args[0] + "§r§7 is now " + "§r§6" + "false");
+					Bukkit.broadcastMessage("\u00a76\u00a7lTOUGH \u00a7r\u00a78> " + "\u00a7e" + args[0] + "\u00a7r\u00a77 is now " + "\u00a7r\u00a76" + "false");
 					return true;
 				}
 				
@@ -39,7 +39,7 @@ public class ToughToggleCommand implements CommandExecutor {
 				
 				plugin.getConfig().set(args[0], !eventToggle);
 				plugin.saveConfig();
-				Bukkit.broadcastMessage("§6§lTOUGH §r§8> " + "§e" + args[0] + "§r§7 is now " + "§r§6" + !eventToggle);
+				Bukkit.broadcastMessage("\u00a76\u00a7lTOUGH \u00a7r\u00a78> " + "\u00a7e" + args[0] + "\u00a7r\u00a77 is now " + "\u00a7r\u00a76" + !eventToggle);
 				return true;
 			}
 		} else {
