@@ -675,7 +675,7 @@ public class Listeners implements Listener {
 				zombie.setCustomName(WordUtils.capitalize(type.name().toLowerCase().replaceAll("_", " ")));
 				zombie.setCustomNameVisible(false);
 				
-				armorStand.setCustomName("§c§l" + WordUtils.capitalize(type.name().toLowerCase().replaceAll("_", " ")));
+				armorStand.setCustomName("\u00a7c\u00a7l" + WordUtils.capitalize(type.name().toLowerCase().replaceAll("_", " ")));
 				armorStand.setCustomNameVisible(true);
 				
 				PotionEffect invisibility = new PotionEffect(PotionEffectType.INVISIBILITY, 2000000, 0);
