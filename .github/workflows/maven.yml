@@ -3,7 +3,17 @@
 
 name: Java CI with Maven
 
-on: [push, pull_request]
+on: 
+  push:
+    branches: 
+      - master
+    paths:
+      - "**.xml"
+      - "**.yml"
+      - "src/**"
+  pull_request:
+    branches: 
+      - master
 
 jobs:
   build:
