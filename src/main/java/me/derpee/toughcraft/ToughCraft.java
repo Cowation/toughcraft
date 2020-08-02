@@ -16,6 +16,7 @@ public class ToughCraft extends JavaPlugin implements Listener {
 		list.add("opMobs");
 		list.add("craftingMonsters");
 		list.add("damageShare");
+		list.add("superSkeletons");
 		
 		return list;
 	}

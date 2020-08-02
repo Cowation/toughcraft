@@ -27,6 +27,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.CaveSpider;
 import org.bukkit.entity.Creeper;
+import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.Enderman;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -56,10 +57,9 @@ public class Listeners implements Listener {
 	Plugin plugin = ToughCraft.getPlugin(ToughCraft.class);
 
 	@EventHandler(priority = EventPriority.HIGH)
-	public void spawnEvent(EntitySpawnEvent event) {
-		if (plugin.getConfig().getBoolean("opMobs") == false) return;
-		
+	public void spawnEvent(EntitySpawnEvent event) {		
 		if (event.getEntityType() == EntityType.ZOMBIE) {
+			if (plugin.getConfig().getBoolean("opMobs") == false) return;
 			Zombie zombie = (Zombie) event.getEntity();
 			
 			ItemStack helmet = new ItemStack(Material.LEATHER_HELMET);
@@ -111,6 +111,7 @@ public class Listeners implements Listener {
 		}
 		
 		if (event.getEntityType() == EntityType.ZOMBIE_VILLAGER) {
+			if (plugin.getConfig().getBoolean("opMobs") == false) return;
 			ZombieVillager zombieVillager = (ZombieVillager) event.getEntity();
 			
 			ItemStack helmet = new ItemStack(Material.LEATHER_HELMET);
@@ -162,56 +163,166 @@ public class Listeners implements Listener {
 		}
 		
 		if (event.getEntityType() == EntityType.SKELETON) {
-			Skeleton skeleton = (Skeleton) event.getEntity();
-			
-			ItemStack helmet = new ItemStack(Material.LEATHER_HELMET);
-			ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
-			ItemStack leggings = new ItemStack(Material.LEATHER_LEGGINGS);
-			ItemStack boots = new ItemStack(Material.LEATHER_BOOTS);
-			
-			LeatherArmorMeta helmMeta = (LeatherArmorMeta) helmet.getItemMeta();
-			helmMeta.setColor(Color.WHITE);
-			helmet.setItemMeta(helmMeta);
-			
-			LeatherArmorMeta chestMeta = (LeatherArmorMeta) chestplate.getItemMeta();
-			chestMeta.setColor(Color.SILVER);
-			chestplate.setItemMeta(chestMeta);
-			
-			LeatherArmorMeta legsMeta = (LeatherArmorMeta) leggings.getItemMeta();
-			legsMeta.setColor(Color.GRAY);
-			leggings.setItemMeta(legsMeta);
-			
-			LeatherArmorMeta bootsMeta = (LeatherArmorMeta) boots.getItemMeta();
-			bootsMeta.setColor(Color.BLACK);
-			boots.setItemMeta(bootsMeta);
-			
-			helmet.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
-			helmet.addEnchantment(Enchantment.OXYGEN, 1);
-			chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
-			leggings.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
-			boots.addEnchantment(Enchantment.DEPTH_STRIDER, 3);
-			boots.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
-			
-			skeleton.getEquipment().setHelmet(helmet);
-			skeleton.getEquipment().setChestplate(chestplate);
-			skeleton.getEquipment().setLeggings(leggings);
-			skeleton.getEquipment().setBoots(boots);
-			
-			ItemStack bow = new ItemStack(Material.BOW);
-			bow.addEnchantment(Enchantment.ARROW_DAMAGE, 2);
-			bow.addEnchantment(Enchantment.ARROW_KNOCKBACK, 1);
-			
-			skeleton.getEquipment().setItemInMainHand(bow);
-			skeleton.getEquipment().setItemInMainHandDropChance(0f);
+			if (plugin.getConfig().getBoolean("opMobs") == false) {
+				if (plugin.getConfig().getBoolean("superSkeletons") == true) {
+					// OpMobs OFF, SS ON
+					Skeleton skeleton = (Skeleton) event.getEntity();
+					
+					ItemStack helmet = new ItemStack(Material.LEATHER_HELMET);
+					ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
+					ItemStack leggings = new ItemStack(Material.LEATHER_LEGGINGS);
+					ItemStack boots = new ItemStack(Material.LEATHER_BOOTS);
+					
+					LeatherArmorMeta helmMeta = (LeatherArmorMeta) helmet.getItemMeta();
+					helmMeta.setColor(Color.fromRGB(58, 179, 218));
+					helmet.setItemMeta(helmMeta);
+					
+					LeatherArmorMeta chestMeta = (LeatherArmorMeta) chestplate.getItemMeta();
+					chestMeta.setColor(Color.fromRGB(58, 179, 218));
+					chestplate.setItemMeta(chestMeta);
+					
+					LeatherArmorMeta legsMeta = (LeatherArmorMeta) leggings.getItemMeta();
+					legsMeta.setColor(Color.fromRGB(58, 179, 218));
+					leggings.setItemMeta(legsMeta);
+					
+					LeatherArmorMeta bootsMeta = (LeatherArmorMeta) boots.getItemMeta();
+					bootsMeta.setColor(Color.fromRGB(58, 179, 218));
+					boots.setItemMeta(bootsMeta);
+					
+					helmet.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
+					helmet.addEnchantment(Enchantment.OXYGEN, 1);
+					chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
+					leggings.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
+					boots.addEnchantment(Enchantment.DEPTH_STRIDER, 3);
+					boots.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
+					
+					skeleton.getEquipment().setHelmet(helmet);
+					skeleton.getEquipment().setChestplate(chestplate);
+					skeleton.getEquipment().setLeggings(leggings);
+					skeleton.getEquipment().setBoots(boots);
+					
+					ItemStack bow = new ItemStack(Material.BOW);
+					bow.addEnchantment(Enchantment.ARROW_DAMAGE, 4);
+					bow.addEnchantment(Enchantment.ARROW_KNOCKBACK, 1);
+					
+					skeleton.getEquipment().setItemInMainHand(bow);
+					skeleton.getEquipment().setItemInMainHandDropChance(0f);
+					
+					Spider spider = (Spider) skeleton.getWorld().spawnEntity(skeleton.getLocation(), EntityType.SPIDER);
+					spider.addPassenger(skeleton);
+					
+					return;
+				} else {
+					// OpMobs OFF, SS OFF
+					return;
+				}
+			} else {
+				if (plugin.getConfig().getBoolean("superSkeletons") == true) {
+					// OpMobs ON, SS ON
+					Skeleton skeleton = (Skeleton) event.getEntity();
+					
+					ItemStack helmet = new ItemStack(Material.LEATHER_HELMET);
+					ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
+					ItemStack leggings = new ItemStack(Material.LEATHER_LEGGINGS);
+					ItemStack boots = new ItemStack(Material.LEATHER_BOOTS);
+					
+					LeatherArmorMeta helmMeta = (LeatherArmorMeta) helmet.getItemMeta();
+					helmMeta.setColor(Color.fromRGB(58, 179, 218));
+					helmet.setItemMeta(helmMeta);
+					
+					LeatherArmorMeta chestMeta = (LeatherArmorMeta) chestplate.getItemMeta();
+					chestMeta.setColor(Color.fromRGB(58, 179, 218));
+					chestplate.setItemMeta(chestMeta);
+					
+					LeatherArmorMeta legsMeta = (LeatherArmorMeta) leggings.getItemMeta();
+					legsMeta.setColor(Color.fromRGB(58, 179, 218));
+					leggings.setItemMeta(legsMeta);
+					
+					LeatherArmorMeta bootsMeta = (LeatherArmorMeta) boots.getItemMeta();
+					bootsMeta.setColor(Color.fromRGB(58, 179, 218));
+					boots.setItemMeta(bootsMeta);
+					
+					helmet.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
+					helmet.addEnchantment(Enchantment.OXYGEN, 1);
+					chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
+					leggings.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
+					boots.addEnchantment(Enchantment.DEPTH_STRIDER, 3);
+					boots.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3);
+					
+					skeleton.getEquipment().setHelmet(helmet);
+					skeleton.getEquipment().setChestplate(chestplate);
+					skeleton.getEquipment().setLeggings(leggings);
+					skeleton.getEquipment().setBoots(boots);
+					
+					ItemStack bow = new ItemStack(Material.BOW);
+					bow.addEnchantment(Enchantment.ARROW_DAMAGE, 4);
+					bow.addEnchantment(Enchantment.ARROW_KNOCKBACK, 1);
+					
+					skeleton.getEquipment().setItemInMainHand(bow);
+					skeleton.getEquipment().setItemInMainHandDropChance(0f);
+					
+					Spider spider = (Spider) skeleton.getWorld().spawnEntity(skeleton.getLocation(), EntityType.SPIDER);
+					spider.addPassenger(skeleton);
+					
+					return;
+				} else {
+					// OpMobs ON, SS OFF
+					Skeleton skeleton = (Skeleton) event.getEntity();
+					
+					ItemStack helmet = new ItemStack(Material.LEATHER_HELMET);
+					ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
+					ItemStack leggings = new ItemStack(Material.LEATHER_LEGGINGS);
+					ItemStack boots = new ItemStack(Material.LEATHER_BOOTS);
+					
+					LeatherArmorMeta helmMeta = (LeatherArmorMeta) helmet.getItemMeta();
+					helmMeta.setColor(Color.WHITE);
+					helmet.setItemMeta(helmMeta);
+					
+					LeatherArmorMeta chestMeta = (LeatherArmorMeta) chestplate.getItemMeta();
+					chestMeta.setColor(Color.SILVER);
+					chestplate.setItemMeta(chestMeta);
+					
+					LeatherArmorMeta legsMeta = (LeatherArmorMeta) leggings.getItemMeta();
+					legsMeta.setColor(Color.GRAY);
+					leggings.setItemMeta(legsMeta);
+					
+					LeatherArmorMeta bootsMeta = (LeatherArmorMeta) boots.getItemMeta();
+					bootsMeta.setColor(Color.BLACK);
+					boots.setItemMeta(bootsMeta);
+					
+					helmet.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+					helmet.addEnchantment(Enchantment.OXYGEN, 1);
+					chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+					leggings.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+					boots.addEnchantment(Enchantment.DEPTH_STRIDER, 3);
+					boots.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+					
+					skeleton.getEquipment().setHelmet(helmet);
+					skeleton.getEquipment().setChestplate(chestplate);
+					skeleton.getEquipment().setLeggings(leggings);
+					skeleton.getEquipment().setBoots(boots);
+					
+					ItemStack bow = new ItemStack(Material.BOW);
+					bow.addEnchantment(Enchantment.ARROW_DAMAGE, 2);
+					bow.addEnchantment(Enchantment.ARROW_KNOCKBACK, 1);
+					
+					skeleton.getEquipment().setItemInMainHand(bow);
+					skeleton.getEquipment().setItemInMainHandDropChance(0f);
+					
+					return;
+				}
+			}
 		}
 		
 		if (event.getEntityType() == EntityType.CREEPER) {
+			if (plugin.getConfig().getBoolean("opMobs") == false) return;
 			Creeper creeper = (Creeper) event.getEntity();
 			
 			creeper.setPowered(true);
 		}
 		
 		if (event.getEntityType() == EntityType.ENDERMAN) {
+			if (plugin.getConfig().getBoolean("opMobs") == false) return;
 			List<Player> playerList = new ArrayList<>(Bukkit.getOnlinePlayers());
 			Enderman enderman = (Enderman) event.getEntity();
 			
@@ -222,16 +333,45 @@ public class Listeners implements Listener {
 		}
 		 
 		if (event.getEntityType() == EntityType.SPIDER) {
-			List<Player> playerList = new ArrayList<>(Bukkit.getOnlinePlayers());
-			Spider spider = (Spider) event.getEntity();
-			
-			spider.setTarget(playerList.get(new Random().nextInt(playerList.size())));
-			
-			PotionEffect effect = new PotionEffect(PotionEffectType.SPEED, 2000000, 0);
-			effect.apply(spider);
+			if (plugin.getConfig().getBoolean("opMobs") == false) {
+				if (plugin.getConfig().getBoolean("superSkeletons") == true) {
+					// OpMobs OFF, SS ON
+					List<Player> playerList = new ArrayList<>(Bukkit.getOnlinePlayers());
+					Spider spider = (Spider) event.getEntity();
+					
+					spider.setTarget(playerList.get(new Random().nextInt(playerList.size())));
+					
+					PotionEffect effect = new PotionEffect(PotionEffectType.SPEED, 2000000, 3);
+					effect.apply(spider);
+				} else {
+					// OpMobs OFF, SS OFF
+					return;
+				}
+			} else {
+				if (plugin.getConfig().getBoolean("superSkeletons") == true) {
+					// OpMobs ON, SS ON
+					List<Player> playerList = new ArrayList<>(Bukkit.getOnlinePlayers());
+					Spider spider = (Spider) event.getEntity();
+					
+					spider.setTarget(playerList.get(new Random().nextInt(playerList.size())));
+					
+					PotionEffect effect = new PotionEffect(PotionEffectType.SPEED, 2000000, 3);
+					effect.apply(spider);
+				} else {
+					// OpMobs ON, SS OFF
+					List<Player> playerList = new ArrayList<>(Bukkit.getOnlinePlayers());
+					Spider spider = (Spider) event.getEntity();
+					
+					spider.setTarget(playerList.get(new Random().nextInt(playerList.size())));
+					
+					PotionEffect effect = new PotionEffect(PotionEffectType.SPEED, 2000000, 0);
+					effect.apply(spider);
+				}
+			}
 		}
 		
 		if (event.getEntityType() == EntityType.CAVE_SPIDER) {
+			if (plugin.getConfig().getBoolean("opMobs") == false) return;
 			List<Player> playerList = new ArrayList<>(Bukkit.getOnlinePlayers());
 			CaveSpider caveSpider = (CaveSpider) event.getEntity();
 			
@@ -286,6 +426,7 @@ public class Listeners implements Listener {
 		}
 		
 		if (event.getEntityType() == EntityType.HUSK) {
+			if (plugin.getConfig().getBoolean("opMobs") == false) return;
 			Husk husk = (Husk) event.getEntity();
 			
 			ItemStack helmet = new ItemStack(Material.LEATHER_HELMET);
@@ -337,6 +478,7 @@ public class Listeners implements Listener {
 		}
 		
 		if (event.getEntityType() == EntityType.EVOKER) {
+			if (plugin.getConfig().getBoolean("opMobs") == false) return;
 			Evoker evoker = (Evoker) event.getEntity();
 			
 			PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 2000000, 1);
@@ -347,6 +489,7 @@ public class Listeners implements Listener {
 		}
 		
 		if (event.getEntityType() == EntityType.PILLAGER) {
+			if (plugin.getConfig().getBoolean("opMobs") == false) return;
 			Pillager pillager = (Pillager) event.getEntity();
 			
 			PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 2000000, 0);
@@ -365,6 +508,7 @@ public class Listeners implements Listener {
 		}
 		
 		if (event.getEntityType() == EntityType.RAVAGER) {
+			if (plugin.getConfig().getBoolean("opMobs") == false) return;
 			Ravager ravager = (Ravager) event.getEntity();
 			
 			PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 2000000, 0);
@@ -375,6 +519,7 @@ public class Listeners implements Listener {
 		}
 		
 		if (event.getEntityType() == EntityType.VINDICATOR) {
+			if (plugin.getConfig().getBoolean("opMobs") == false) return;
 			Vindicator vindicator = (Vindicator) event.getEntity();
 			
 			ItemStack axe = new ItemStack(Material.NETHERITE_AXE);
@@ -392,6 +537,7 @@ public class Listeners implements Listener {
 		}
 		
 		if (event.getEntityType() == EntityType.WITHER_SKELETON) {
+			if (plugin.getConfig().getBoolean("opMobs") == false) return;
 			WitherSkeleton witherSkeleton = (WitherSkeleton) event.getEntity();
 			
 			ItemStack helmet = new ItemStack(Material.LEATHER_HELMET);
@@ -436,6 +582,7 @@ public class Listeners implements Listener {
 		}
 		
 		if (event.getEntityType() == EntityType.ZOGLIN) {
+			if (plugin.getConfig().getBoolean("opMobs") == false) return;
 			Zoglin zoglin = (Zoglin) event.getEntity();
 			
 			PotionEffect effect = new PotionEffect(PotionEffectType.SPEED, 2000000, 0);
@@ -446,6 +593,7 @@ public class Listeners implements Listener {
 		}
 		
 		if (event.getEntityType() == EntityType.HOGLIN) {
+			if (plugin.getConfig().getBoolean("opMobs") == false) return;
 			Hoglin hoglin = (Hoglin) event.getEntity();
 			
 			PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 2000000, 0);
@@ -456,6 +604,7 @@ public class Listeners implements Listener {
 		}
 		
 		if (event.getEntityType() == EntityType.PIGLIN) {
+			if (plugin.getConfig().getBoolean("opMobs") == false) return;
 			List<Player> playerList = new ArrayList<>(Bukkit.getOnlinePlayers());
 			Piglin piglin = (Piglin) event.getEntity();
 			
@@ -512,6 +661,7 @@ public class Listeners implements Listener {
 		}
 		
 		if (event.getEntityType() == EntityType.ZOMBIFIED_PIGLIN) {
+			if (plugin.getConfig().getBoolean("opMobs") == false) return;
 			List<Player> playerList = new ArrayList<>(Bukkit.getOnlinePlayers());
 
 			PigZombie zombifiedPiglin = (PigZombie) event.getEntity();
@@ -558,6 +708,14 @@ public class Listeners implements Listener {
 			
 			zombifiedPiglin.getEquipment().setItemInMainHand(sword);
 			zombifiedPiglin.getEquipment().setItemInMainHandDropChance(0f);
+		}
+		
+		if (event.getEntity().getType() == EntityType.ENDER_DRAGON) {
+			if (plugin.getConfig().getBoolean("opMobs") == false) return;
+			EnderDragon dragon = (EnderDragon) event.getEntity();
+			
+			PotionEffect resistance = new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 2000000, 3);
+			resistance.apply(dragon);
 		}
 	}
 	
